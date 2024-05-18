@@ -1,0 +1,107 @@
+import pyttsx3  # pip install pyttsx3
+import speech_recognition as sr  # pip install speechRecognition
+import datetime
+import wikipedia  # pip install wikipedia
+import webbrowser
+import os
+
+engine = pyttsx3.init('sapi5')
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[1].id)
+
+def speak(audio):
+    engine.say(audio)
+    engine.runAndWait()
+
+def wishMe():
+    hour = int(datetime.datetime.now().hour)
+    if hour >= 0 and hour < 12:
+        speak("Good Morning!")
+    elif hour >= 12 and hour < 18:
+        speak("Good Afternoon!")
+    else:
+        speak("Good Evening!")
+    speak(" Hi, I am Catty. How can I help you?")
+
+def takeCommand():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        r.pause_threshold = 1
+        audio = r.listen(source)
+
+    try:
+        print("Recognizing...")
+        query = r.recognize_google(audio, language='en-in')
+        print(f"User said: {query}\n")
+    except Exception as e:
+        print("Say that again please...")
+        return "None"
+    return query
+
+def sendEmail(to, content):
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login('youremail@gmail.com', 'your-password')
+    server.sendmail('youremail@gmail.com', to, content)
+    server.close()
+
+if __name__ == "__main__":
+    wishMe()
+    while True:
+        query = takeCommand().lower()
+
+        if 'wikipedia' in query:
+            speak('Searching Wikipedia...')
+            query = query.replace("wikipedia", "")
+            results = wikipedia.summary(query, sentences=2)
+            speak("According to Wikipedia")
+            print(results)
+            speak(results)
+        elif 'open youtube' in query:
+            webbrowser.open("youtube.com")
+        elif 'open google' in query:
+            webbrowser.open("google.com")
+        elif 'open stackoverflow' in query:
+            webbrowser.open("stackoverflow.com")
+        elif 'open netflix' in query:
+            webbrowser.open("https://www.netflix.com/browse")
+        elif 'play music' in query:
+            webbrowser.open("https://open.spotify.com/")
+        elif 'open snapchat' in query:
+            webbrowser.open("https://www.snapchat.com/")
+        elif 'open facebook' in query:
+            webbrowser.open("https://www.facebook.com/")
+        elif 'open amazon' in query:
+            webbrowser.open("https://www.amazon.in/")
+        elif 'i love you' in query:
+            speak("Sorry, I have a boyfriend.")
+        elif 'the time' in query:
+            strTime = datetime.datetime.now().strftime("%H:%M:%S")
+            speak(f"Sir, the time is {strTime}")
+        elif 'i am sad' in query:
+            speak("Oh, that's unfortunate. I'm here if you need me.")
+        elif 'do you like me' in query:
+            speak("No, you look like a monkey.")
+        elif 'hello' in query:
+            speak("Hello, mate!")
+        elif 'open lms' in query:
+            webbrowser.open("https://lms.bennett.edu.in/login/index.php")
+        elif 'open gmail' in query:
+            webbrowser.open("https://mail.google.com/mail/u/0/#inbox")
+        elif 'i am alone what should i do' in query:
+            webbrowser.open("https://tinder.com/")
+        elif 'open google meet' in query:
+            webbrowser.open("https://meet.google.com/")
+        elif 'clap for me' in query:
+            webbrowser.open("https://www.youtube.com/watch?v=Gyu82WG_edM")
+        elif 'who is your creator' in query:
+            speak("Team Alpha")
+        elif 'i love' in query:
+            speak("Team Alpha")
+        elif 'stop' in query or 'quit' in query or 'exit' in query:
+            speak("Goodbye! Have a great day!")
+            break
+        else:
+            speak("I'm not sure how to help with that.")

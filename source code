@@ -1,5 +1,5 @@
 import pyttsx3  # pip install pyttsx3
-import speech_recognition as sr  # pip install speechRecognition
+import speech_recognition as sr  # pip install speechRecognition , # pip install pyaudio 
 import datetime
 import wikipedia  # pip install wikipedia
 import webbrowser
@@ -7,7 +7,7 @@ import os
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[1].id)
+engine.setProperty('voice', voices[1].id) 
 
 def speak(audio):
     engine.say(audio)

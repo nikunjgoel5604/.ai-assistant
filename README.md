@@ -1,1 +1,1 @@
-# Catty---Personal-AI-Assistant-
+# .ai Assistant
